@@ -19,7 +19,7 @@ Note **: don't composer update
 	composer create-project --prefer-dist laravel/laravel amir-project
 
 ### After Clone
-1. Create .env, set Database name
+1. Update .env, set Database name
 2. php artisan key:generate
 
 cd amir-project
