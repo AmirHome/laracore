@@ -15,8 +15,9 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ### Amir Composer
 Note **: don't composer update
+
 	composer create-project --prefer-dist laravel/laravel amir-project
-	
+
 ### After Clone
 1. Create .env, set Database name
 2. php artisan key:generate
