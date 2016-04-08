@@ -118,6 +118,9 @@ cd amir-project
 		        return $next($request);
 		    }
 		}
+
+	for Helper
+    ****Code****
 		append composer.json in the "autoload": {
         "files": ["app/Helpers/register.php"]
 		
@@ -127,6 +130,13 @@ cd amir-project
 
         app/Helpers/TextHelpers.php
         <?php ...
+
+		run composer dump-autoload
+
+        using
+		persian_normalizer($text);
+		$news_record->slug = persian_slug($text);
+		$news_record->slug = turkish_slug($text);
     ********
 
 ### Amir Nodejs
