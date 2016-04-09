@@ -137,9 +137,18 @@ cd amir-project
 		persian_normalizer($text);
 		$news_record->slug = persian_slug($text);
 		$news_record->slug = turkish_slug($text);
+		
+		Requests/
+		protected function getValidatorInstance() {
+			/*
+				Automatic generate slug
+			*/
+		    $this->merge(['slug'=> turkish_slug($this->input('title'))]);
+		    return parent::getValidatorInstance();
+		}
     ********
 
-### Amir Nodejs
+### init Nodejs
 		
 		... from within our project folder
 		$ npm init (Optional)
