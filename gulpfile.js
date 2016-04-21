@@ -16,7 +16,7 @@ elixir(function(mix) {
 /*
 $ npm install gulp -g
 $ npm init
-$ npm install gulp gulp-useref gulp-if gulp-uglify gulp-cssnano del gulp-livereload gulp-clean gulp-replace gulp-htmlmin --save-dev
+$ npm install gulp gulp-useref gulp-if gulp-uglify gulp-cssnano del gulp-livereload gulp-clean gulp-replace gulp-htmlmin gulp-filter-cache vinyl-ftp --save-dev
 */
 var gulp = require('gulp'),
     useref = require('gulp-useref'),
@@ -27,13 +27,15 @@ var gulp = require('gulp'),
     livereload = require('gulp-livereload'),
     clean = require('gulp-clean'),
     replace = require('gulp-replace'),
-    htmlmin = require('gulp-htmlmin')
+    htmlmin = require('gulp-htmlmin'),
+    fileCache = require('gulp-filter-cache'),
+    ftp = require('vinyl-ftp')
     ;
 
 // Paths variables
 var paths = {
     'local':{
-      'project':'signal',
+      'project':'mycore',
       'root':'E:/xampp/htdocs/',
       // 'gulpBuild':'gulpBuild/resources',
     },
@@ -55,6 +57,56 @@ var paths = {
 
 gulp.task('hello', function() {
   console.log( '!'+paths.local.root+paths.local.project+'_min/amir/**/*');
+});
+
+gulp.task('ftp-deploy', function () {
+    
+    var conn = ftp.create({
+        host:     'ftp.amploconsulting.com',
+        user:     'smartme@amploconsulting.com',
+        password: '@m!rsmartmeA7',
+    });
+ 
+    return gulp.src([paths.local.root+paths.local.project+'/**'
+                ,paths.local.root+paths.local.project+'/.git/refs/tags/*'
+                
+                ,'!'+paths.local.root+paths.local.project+'/.git/*'
+                ,'!'+paths.local.root+paths.local.project+'/.git/hooks/**'
+                ,'!'+paths.local.root+paths.local.project+'/.git/hooks'
+                ,'!'+paths.local.root+paths.local.project+'/.git/info/**'
+                ,'!'+paths.local.root+paths.local.project+'/.git/info'
+                ,'!'+paths.local.root+paths.local.project+'/.git/logs/**'
+                ,'!'+paths.local.root+paths.local.project+'/.git/logs'
+                ,'!'+paths.local.root+paths.local.project+'/.git/objects/**'
+                ,'!'+paths.local.root+paths.local.project+'/.git/objects'
+                ,'!'+paths.local.root+paths.local.project+'/.git/refs/remotes/**'
+                ,'!'+paths.local.root+paths.local.project+'/.git/refs/remotes'
+                ,'!'+paths.local.root+paths.local.project+'/.git/refs/heads/**'
+                ,'!'+paths.local.root+paths.local.project+'/.git/refs/heads'
+
+                ,'!'+paths.local.root+paths.local.project+'/node_modules/**'
+                ,'!'+paths.local.root+paths.local.project+'/node_modules'
+                ,'!'+paths.local.root+paths.local.project+'/storage/**/*'
+                ,'!'+paths.local.root+paths.local.project+'/storage'
+                ,'!'+paths.local.root+paths.local.project+'/gulpBuild/**'
+                ,'!'+paths.local.root+paths.local.project+'/gulpBuild'
+
+                ,'!'+paths.local.root+paths.local.project+'/artisan'
+                ,'!'+paths.local.root+paths.local.project+'/.env.example'
+                ,'!'+paths.local.root+paths.local.project+'/.env'
+                ,'!'+paths.local.root+paths.local.project+'/.gitignore'
+                ,'!'+paths.local.root+paths.local.project+'/.bowerrc'
+                ,'!'+paths.local.root+paths.local.project+'/.gitattributes'
+                ,'!'+paths.local.root+paths.local.project+'/.jshintrc'
+                ,'!'+paths.local.root+paths.local.project+'/gulpfile.js'
+                ,'!'+paths.local.root+paths.local.project+'/composer.json'
+                ,'!'+paths.local.root+paths.local.project+'/composer.lock'
+                ,'!'+paths.local.root+paths.local.project+'/phpunit.xml'
+                ,'!'+paths.local.root+paths.local.project+'/README.md'
+                ,'!'+paths.local.root+paths.local.project+'/package.json'
+                ],{dot: true})
+        .pipe(fileCache())//cacheFile ./node_modules/.filter-cache
+        .pipe(conn.dest('/'));
 });
 
 gulp.task('useref',['clean'], function(){
