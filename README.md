@@ -45,6 +45,10 @@ cd amir-project
 			{
 			    // return true for access to one folder
 			}
+
+		public\ckeditor\config.js:     
+     	
+    		config.filebrowserBrowseUrl= 'http://localhost/cms/public/filemanager/index.html';		
 		***********
 	3,4.	
 	composer require intervention/image
