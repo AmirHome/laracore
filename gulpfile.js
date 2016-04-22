@@ -153,78 +153,60 @@ function upload(list) {
 }
 
 gulp.task('ftp-deploy', function() {
-/*    // the remote name, default 'origin'
-    var remote = argv.r === undefined && argv.remote === undefined ? 'origin' : argv.r || argv.remote,
-    // the local and remote branch, default 'master'
-        branch = argv.b === undefined && argv.branch === undefined ? 'master' : argv.b || argv.branch;
-*/
-    return git.exec({args : 'describe --tags'}, function (err, tag) {
-      var git_command;
-      var separator = '\t';
-      if (err)
-      {
-        git_command = 'ls-files -t';
+
+    var init = argv.f === undefined ? false : true;
+
+    var separator;
+    var tag;
+
+    if (init)
+    {
         separator = ' ';
-      }
-      else
-      {
-        git_command = 'diff --name-status ' + tag.trim().slice(0,8) + ' ' + 'HEAD';
-      }
-
-    // get diffs between local and remote.
-    // max buffer 1024 * 1024
-    return git.exec({args: git_command, maxBuffer: 1024 * 1024}, function(err, stdout) {
-        if (err) throw err;
-
-        var list = stdout;
-        fs.writeFileSync('.gulp-ftp-git-cache.json',list);
-
-        list = list.trim().split('\n').map(function(line) {
-            var a = line.split(separator);
-            return {
-                type: a[0],
-                path: a[1]
-            };
+        upload_list('ls-files -t');
+    }
+    else
+    {
+        separator = '\t';
+        return git.exec({args : 'describe --tags'}, function (err, tagc) {
+            if (err) throw err;
+            tag = tagc.trim().slice(0,8);
+            upload_list('diff --name-status ' + tag + ' ' + 'HEAD');
         });
+    }
 
-        var ftpignore = ['.bowerrc','.env','.env.example','.gitattributes','.gitignore','.htaccess','.jshintrc','artisan','composer.json','composer.lock','gulpfile.js','package.json','phpunit.xml','README.md'];
-        // var ftpignore = fs.readFileSync('gulpfile-ftpignore.json');
-        list = list.filter(function(x) { return ftpignore.indexOf(x.path) < 0 });
+    function upload_list (git_command) {
+        // get diffs between local and remote.
+        // max buffer 1024 * 1024
+        return git.exec({args: git_command, maxBuffer: 1024 * 1024}, function(err, stdout) {
+            if (err) throw err;
 
-        //console.log(list); process.exit();
-        // save last list to cache
-        fs.writeFileSync('gulpfile-ftp-git-cache.json', JSON.stringify(list));
+            var list = stdout;
+            // fs.writeFileSync('gulpfile-ftpignore.json',list);
 
-        // append last tag git to list
-          list.push( { type: 'M', path:  '.git/refs/tags/'+tag}  );
+            list = list.trim().split('\n').map(function(line) {
+                var a = line.split(separator);
+                return {
+                    type: a[0],
+                    path: a[1]
+                };
+            });
 
-          return upload(list);
-        });
+            var ftpignore = ['.bowerrc','.env','.env.example','.gitattributes','.gitignore','.htaccess','.jshintrc','artisan','composer.json','composer.lock','gulpfile.js','package.json','phpunit.xml','README.md'];
+            // var ftpignore = fs.readFileSync('gulpfile-ftpignore.json');
+            list = list.filter(function(x) { return ftpignore.indexOf(x.path) < 0 });
 
-        // push to remote
-        // return git.push(remote, branch, function(err) {
-        //     if (err) throw err;
+            // save last list to cache
+            // fs.writeFileSync('gulpfile-ftp-git-cache.json', JSON.stringify(list));
 
-        // upload(list);
-        // });
-    });
+            // append last tag git to list
+            list.push( { type: 'M', path:  '.git/refs/tags/'+tag}  );
+
+        // console.log(list); process.exit();
+              return upload(list);
+            });
+    }
 });
 
-
-gulp.task('upload', function() {
-    var list = JSON.parse(fs.readFileSync('.gulp-ftp-git-cache.json'));
-
-    return git.exec({args : 'describe --tags'}, function (err, tag) {
-      if (err) throw err;
-      
-      // append last tag git to list
-      var tag = tag.trim().slice(0,8);
-      list.push( { type: 'M', path:  '.git/refs/tags/'+tag} );
-
-      return upload(list);
-    });
-
-});
 
 /* clean up css and js and html */
 gulp.task('useref',['clean'], function(){
