@@ -16,7 +16,7 @@ elixir(function(mix) {
 /*
 $ npm install gulp -g
 $ npm init
-$ npm install gulp gulp-useref gulp-if gulp-uglify gulp-cssnano del gulp-livereload gulp-clean gulp-replace gulp-htmlmin gulp-filter-cache vinyl-ftp --save-dev
+$ npm install gulp gulp-useref gulp-if gulp-uglify gulp-cssnano del gulp-livereload gulp-clean gulp-replace gulp-htmlmin gulp-git gulp-util vinyl-ftp yargs fs --save-dev
 */
 var gulp = require('gulp'),
     useref = require('gulp-useref'),
@@ -28,8 +28,12 @@ var gulp = require('gulp'),
     clean = require('gulp-clean'),
     replace = require('gulp-replace'),
     htmlmin = require('gulp-htmlmin'),
-    fileCache = require('gulp-filter-cache'),
-    ftp = require('vinyl-ftp')
+    // fileCache = require('gulp-filter-cache'),
+    git = require('gulp-git'), // git
+    gutil = require('gulp-util'), // log
+    ftp = require('vinyl-ftp'), // ftp
+    argv = require('yargs').argv, // pass arguments
+    fs = require('fs'); // load file
     ;
 
 // Paths variables
@@ -59,7 +63,7 @@ gulp.task('hello', function() {
   console.log( '!'+paths.local.root+paths.local.project+'_min/amir/**/*');
 });
 
-gulp.task('ftp-deploy', function () {
+gulp.task('xxxxxxxftp-deployxxxxxxxx', function () {
     
     var conn = ftp.create({
         host:     'ftp.amploconsulting.com',
@@ -69,7 +73,7 @@ gulp.task('ftp-deploy', function () {
  
     return gulp.src([paths.local.root+paths.local.project+'/**'
                 ,paths.local.root+paths.local.project+'/.git/refs/tags/*'
-                
+
                 ,'!'+paths.local.root+paths.local.project+'/.git/*'
                 ,'!'+paths.local.root+paths.local.project+'/.git/hooks/**'
                 ,'!'+paths.local.root+paths.local.project+'/.git/hooks'
@@ -109,6 +113,120 @@ gulp.task('ftp-deploy', function () {
         .pipe(conn.dest('/'));
 });
 
+/*
+* upload modified git with ftp
+*/
+
+// function to upload to ftp server
+function upload(list) {
+    var conn = ftp.create({
+        host:     'ftp.amploconsulting.com', // ftp host name
+        user:     'smartme@amploconsulting.com', // ftp username
+        password: '@m!rsmartmeA7', // ftp password
+        parallel: 7,
+        log:      gutil.log
+    });
+    var remotePath = '/'; // the remote path on the server you want to upload to
+
+    // added and modified files
+    var changes = list.reduce(function(a, cur) {
+        if (cur.type !== 'D' && cur.type.length)
+            a.push(cur.path);
+        return a || [];
+    }, []);
+    // deleted files
+    var deletes = list.reduce(function(a, cur) {
+        if (cur.type === 'D' && cur.type.length)
+            a.push(cur.path);
+        return a || [];
+    }, []);
+
+    // upload added and modified files
+    gulp.src(changes, { base: '.', buffer: false })
+        .pipe(conn.dest(remotePath));
+    // delete removes files
+    deletes.map(function(d) {
+        conn.delete(remotePath + d, function(err) {
+            if (err) throw err;
+        });
+    });
+}
+
+gulp.task('ftp-deploy', function() {
+/*    // the remote name, default 'origin'
+    var remote = argv.r === undefined && argv.remote === undefined ? 'origin' : argv.r || argv.remote,
+    // the local and remote branch, default 'master'
+        branch = argv.b === undefined && argv.branch === undefined ? 'master' : argv.b || argv.branch;
+*/
+    return git.exec({args : 'describe --tags'}, function (err, tag) {
+      var git_command;
+      var separator = '\t';
+      if (err)
+      {
+        git_command = 'ls-files -t';
+        separator = ' ';
+      }
+      else
+      {
+        git_command = 'diff --name-status ' + tag.trim().slice(0,8) + ' ' + 'HEAD';
+      }
+
+    // get diffs between local and remote.
+    // max buffer 1024 * 1024
+    return git.exec({args: git_command, maxBuffer: 1024 * 1024}, function(err, stdout) {
+        if (err) throw err;
+
+        var list = stdout;
+        fs.writeFileSync('.gulp-ftp-git-cache.json',list);
+
+        list = list.trim().split('\n').map(function(line) {
+            var a = line.split(separator);
+            return {
+                type: a[0],
+                path: a[1]
+            };
+        });
+
+        var ftpignore = ['.bowerrc','.env','.env.example','.gitattributes','.gitignore','.htaccess','.jshintrc','artisan','composer.json','composer.lock','gulpfile.js','package.json','phpunit.xml','README.md'];
+        // var ftpignore = fs.readFileSync('gulpfile-ftpignore.json');
+        list = list.filter(function(x) { return ftpignore.indexOf(x.path) < 0 });
+
+        //console.log(list); process.exit();
+        // save last list to cache
+        fs.writeFileSync('gulpfile-ftp-git-cache.json', JSON.stringify(list));
+
+        // append last tag git to list
+          list.push( { type: 'M', path:  '.git/refs/tags/'+tag}  );
+
+          return upload(list);
+        });
+
+        // push to remote
+        // return git.push(remote, branch, function(err) {
+        //     if (err) throw err;
+
+        // upload(list);
+        // });
+    });
+});
+
+
+gulp.task('upload', function() {
+    var list = JSON.parse(fs.readFileSync('.gulp-ftp-git-cache.json'));
+
+    return git.exec({args : 'describe --tags'}, function (err, tag) {
+      if (err) throw err;
+      
+      // append last tag git to list
+      var tag = tag.trim().slice(0,8);
+      list.push( { type: 'M', path:  '.git/refs/tags/'+tag} );
+
+      return upload(list);
+    });
+
+});
+
+/* clean up css and js and html */
 gulp.task('useref',['clean'], function(){
   return gulp.src(paths.assets.view)
 
