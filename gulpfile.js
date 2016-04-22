@@ -34,116 +34,70 @@ var gulp = require('gulp'),
     ftp = require('vinyl-ftp'), // ftp
     argv = require('yargs').argv, // pass arguments
     fs = require('fs'); // load file
-    ;
-
+;
 // Paths variables
 var paths = {
-    'local':{
-      'project':'mycore',
-      'root':'E:/xampp/htdocs/',
-      // 'gulpBuild':'gulpBuild/resources',
+    'local': {
+        'project': 'mycore',
+        'root': 'E:/xampp/htdocs/',
+        // 'gulpBuild':'gulpBuild/resources',
     },
     'dev': {
         'css': 'gulpBuild/resources/assets/css',
         'js': 'gulpBuild/resources/assets/js',
         'font': 'gulpBuild/resources/assets/fonts',
-        'view':'gulpBuild/resources/views',
+        'view': 'gulpBuild/resources/views',
         // 'localgulp': 'D:/xampp/htdocs/signalgulp/resources',
     },
     'assets': {
         'css': 'resources/assets/css',
         'js': 'resources/assets/js',
         'font': 'resources/assets/fonts/**/*',
-        'view':'resources/views/**/*.php',
+        'view': 'resources/views/**/*.php',
     }
-
 };
-
 gulp.task('hello', function() {
-  console.log( '!'+paths.local.root+paths.local.project+'_min/amir/**/*');
+    console.log('!' + paths.local.root + paths.local.project + '_min/amir/**/*');
 });
-
-gulp.task('xxxxxxxftp-deployxxxxxxxx', function () {
-    
+gulp.task('xxxxxxxftp-deployxxxxxxxx', function() {
     var conn = ftp.create({
-        host:     'ftp.amploconsulting.com',
-        user:     'smartme@amploconsulting.com',
+        host: 'ftp.amploconsulting.com',
+        user: 'smartme@amploconsulting.com',
         password: '@m!rsmartmeA7',
     });
- 
-    return gulp.src([paths.local.root+paths.local.project+'/**'
-                ,paths.local.root+paths.local.project+'/.git/refs/tags/*'
-
-                ,'!'+paths.local.root+paths.local.project+'/.git/*'
-                ,'!'+paths.local.root+paths.local.project+'/.git/hooks/**'
-                ,'!'+paths.local.root+paths.local.project+'/.git/hooks'
-                ,'!'+paths.local.root+paths.local.project+'/.git/info/**'
-                ,'!'+paths.local.root+paths.local.project+'/.git/info'
-                ,'!'+paths.local.root+paths.local.project+'/.git/logs/**'
-                ,'!'+paths.local.root+paths.local.project+'/.git/logs'
-                ,'!'+paths.local.root+paths.local.project+'/.git/objects/**'
-                ,'!'+paths.local.root+paths.local.project+'/.git/objects'
-                ,'!'+paths.local.root+paths.local.project+'/.git/refs/remotes/**'
-                ,'!'+paths.local.root+paths.local.project+'/.git/refs/remotes'
-                ,'!'+paths.local.root+paths.local.project+'/.git/refs/heads/**'
-                ,'!'+paths.local.root+paths.local.project+'/.git/refs/heads'
-
-                ,'!'+paths.local.root+paths.local.project+'/node_modules/**'
-                ,'!'+paths.local.root+paths.local.project+'/node_modules'
-                ,'!'+paths.local.root+paths.local.project+'/storage/**/*'
-                ,'!'+paths.local.root+paths.local.project+'/storage'
-                ,'!'+paths.local.root+paths.local.project+'/gulpBuild/**'
-                ,'!'+paths.local.root+paths.local.project+'/gulpBuild'
-
-                ,'!'+paths.local.root+paths.local.project+'/artisan'
-                ,'!'+paths.local.root+paths.local.project+'/.env.example'
-                ,'!'+paths.local.root+paths.local.project+'/.env'
-                ,'!'+paths.local.root+paths.local.project+'/.gitignore'
-                ,'!'+paths.local.root+paths.local.project+'/.bowerrc'
-                ,'!'+paths.local.root+paths.local.project+'/.gitattributes'
-                ,'!'+paths.local.root+paths.local.project+'/.jshintrc'
-                ,'!'+paths.local.root+paths.local.project+'/gulpfile.js'
-                ,'!'+paths.local.root+paths.local.project+'/composer.json'
-                ,'!'+paths.local.root+paths.local.project+'/composer.lock'
-                ,'!'+paths.local.root+paths.local.project+'/phpunit.xml'
-                ,'!'+paths.local.root+paths.local.project+'/README.md'
-                ,'!'+paths.local.root+paths.local.project+'/package.json'
-                ],{dot: true})
-        .pipe(fileCache())//cacheFile ./node_modules/.filter-cache
+    return gulp.src([paths.local.root + paths.local.project + '/**', paths.local.root + paths.local.project + '/.git/refs/tags/*', '!' + paths.local.root + paths.local.project + '/.git/*', '!' + paths.local.root + paths.local.project + '/.git/hooks/**', '!' + paths.local.root + paths.local.project + '/.git/hooks', '!' + paths.local.root + paths.local.project + '/.git/info/**', '!' + paths.local.root + paths.local.project + '/.git/info', '!' + paths.local.root + paths.local.project + '/.git/logs/**', '!' + paths.local.root + paths.local.project + '/.git/logs', '!' + paths.local.root + paths.local.project + '/.git/objects/**', '!' + paths.local.root + paths.local.project + '/.git/objects', '!' + paths.local.root + paths.local.project + '/.git/refs/remotes/**', '!' + paths.local.root + paths.local.project + '/.git/refs/remotes', '!' + paths.local.root + paths.local.project + '/.git/refs/heads/**', '!' + paths.local.root + paths.local.project + '/.git/refs/heads', '!' + paths.local.root + paths.local.project + '/node_modules/**', '!' + paths.local.root + paths.local.project + '/node_modules', '!' + paths.local.root + paths.local.project + '/storage/**/*', '!' + paths.local.root + paths.local.project + '/storage', '!' + paths.local.root + paths.local.project + '/gulpBuild/**', '!' + paths.local.root + paths.local.project + '/gulpBuild', '!' + paths.local.root + paths.local.project + '/artisan', '!' + paths.local.root + paths.local.project + '/.env.example', '!' + paths.local.root + paths.local.project + '/.env', '!' + paths.local.root + paths.local.project + '/.gitignore', '!' + paths.local.root + paths.local.project + '/.bowerrc', '!' + paths.local.root + paths.local.project + '/.gitattributes', '!' + paths.local.root + paths.local.project + '/.jshintrc', '!' + paths.local.root + paths.local.project + '/gulpfile.js', '!' + paths.local.root + paths.local.project + '/composer.json', '!' + paths.local.root + paths.local.project + '/composer.lock', '!' + paths.local.root + paths.local.project + '/phpunit.xml', '!' + paths.local.root + paths.local.project + '/README.md', '!' + paths.local.root + paths.local.project + '/package.json'], {
+            dot: true
+        }).pipe(fileCache()) //cacheFile ./node_modules/.filter-cache
         .pipe(conn.dest('/'));
 });
-
 /*
-* upload modified git with ftp
-*/
-
+ * upload modified git with ftp
+ */
 // function to upload to ftp server
 function upload(list) {
     var conn = ftp.create({
-        host:     'ftp.amploconsulting.com', // ftp host name
-        user:     'smartme@amploconsulting.com', // ftp username
+        host: 'ftp.amploconsulting.com', // ftp host name
+        user: 'smartme@amploconsulting.com', // ftp username
         password: '@m!rsmartmeA7', // ftp password
         parallel: 7,
-        log:      gutil.log
+        log: gutil.log
     });
     var remotePath = '/'; // the remote path on the server you want to upload to
-
     // added and modified files
     var changes = list.reduce(function(a, cur) {
-        if (cur.type !== 'D' && cur.type.length)
-            a.push(cur.path);
+        if (cur.type !== 'D' && cur.type.length) a.push(cur.path);
         return a || [];
     }, []);
     // deleted files
     var deletes = list.reduce(function(a, cur) {
-        if (cur.type === 'D' && cur.type.length)
-            a.push(cur.path);
+        if (cur.type === 'D' && cur.type.length) a.push(cur.path);
         return a || [];
     }, []);
-
     // upload added and modified files
-    gulp.src(changes, { base: '.', buffer: false })
-        .pipe(conn.dest(remotePath));
+    gulp.src(changes, {
+        base: '.',
+        buffer: false
+    }).pipe(conn.dest(remotePath));
     // delete removes files
     deletes.map(function(d) {
         conn.delete(remotePath + d, function(err) {
@@ -151,38 +105,34 @@ function upload(list) {
         });
     });
 }
-
 gulp.task('ftp-deploy', function() {
-
     var init = argv.f === undefined ? false : true;
-
     var separator;
     var tag;
-
-    if (init)
-    {
+    if (init) {
         separator = ' ';
         upload_list('ls-files -t');
-    }
-    else
-    {
+    } else {
         separator = '\t';
-        return git.exec({args : 'describe --tags'}, function (err, tagc) {
+        return git.exec({
+            args: 'describe --tags'
+        }, function(err, tagc) {
             if (err) throw err;
-            tag = tagc.trim().slice(0,8);
+            tag = tagc.trim().slice(0, 8);
             upload_list('diff --name-status ' + tag + ' ' + 'HEAD');
         });
     }
 
-    function upload_list (git_command) {
+    function upload_list(git_command) {
         // get diffs between local and remote.
         // max buffer 1024 * 1024
-        return git.exec({args: git_command, maxBuffer: 1024 * 1024}, function(err, stdout) {
+        return git.exec({
+            args: git_command,
+            maxBuffer: 1024 * 1024
+        }, function(err, stdout) {
             if (err) throw err;
-
             var list = stdout;
             // fs.writeFileSync('gulpfile-ftpignore.json',list);
-
             list = list.trim().split('\n').map(function(line) {
                 var a = line.split(separator);
                 return {
@@ -190,129 +140,92 @@ gulp.task('ftp-deploy', function() {
                     path: a[1]
                 };
             });
-
-            var ftpignore = ['.bowerrc','.env','.env.example','.gitattributes','.gitignore','.htaccess','.jshintrc','artisan','composer.json','composer.lock','gulpfile.js','package.json','phpunit.xml','README.md'];
+            var ftpignore = ['.bowerrc', '.env', '.env.example', '.gitattributes', '.gitignore', '.htaccess', '.jshintrc', 'artisan', 'composer.json', 'composer.lock', 'gulpfile.js', 'package.json', 'phpunit.xml', 'README.md'];
             // var ftpignore = fs.readFileSync('gulpfile-ftpignore.json');
-            list = list.filter(function(x) { return ftpignore.indexOf(x.path) < 0 });
-
+            list = list.filter(function(x) {
+                return ftpignore.indexOf(x.path) < 0
+            });
             // save last list to cache
             // fs.writeFileSync('gulpfile-ftp-git-cache.json', JSON.stringify(list));
-
             // append last tag git to list
-            list.push( { type: 'M', path:  '.git/refs/tags/'+tag}  );
-
-        // console.log(list); process.exit();
-              return upload(list);
+            list.push({
+                type: 'M',
+                path: '.git/refs/tags/' + tag
             });
+            // console.log(list); process.exit();
+            return upload(list);
+        });
     }
 });
-
-
 /* clean up css and js and html */
-gulp.task('useref',['clean'], function(){
-  return gulp.src(paths.assets.view)
-
-
-    .pipe(replace("{{ asset('resources/assets') }}", 'resources/assets'))
-    // .pipe(replace(/foo(.{3})/g, '$1foo'))
-    .pipe(useref())
-    // Minifies only if it's a JavaScript file
-    .pipe(gulpIf('*.js', uglify()))
-    // Minifies only if it's a CSS file
-    .pipe(gulpIf('*.css', cssnano()))
-    
-    .pipe(gulp.dest(paths.dev.view))
-    
-    .pipe(replace('../assets', "{{ asset('resources/assets') }}"))
-
-    // .pipe(gulpIf(['/js/*.js', 'css/*.css'], gulp.dest('gulpBuild/resources/assets')))
-
-    .pipe(gulpIf('*.php', htmlmin({
-                collapseWhitespace: true,
-                removeAttributeQuotes: true,
-                removeComments:        true,
-                minifyJS:              true,
-              })))
-
-    .pipe(gulpIf('*.php', gulp.dest(paths.dev.view)))
+gulp.task('useref', ['clean'], function() {
+    return gulp.src(paths.assets.view).pipe(replace("{{ asset('resources/assets') }}", 'resources/assets'))
+        // .pipe(replace(/foo(.{3})/g, '$1foo'))
+        .pipe(useref())
+        // Minifies only if it's a JavaScript file
+        .pipe(gulpIf('*.js', uglify()))
+        // Minifies only if it's a CSS file
+        .pipe(gulpIf('*.css', cssnano())).pipe(gulp.dest(paths.dev.view)).pipe(replace('../assets', "{{ asset('resources/assets') }}"))
+        // .pipe(gulpIf(['/js/*.js', 'css/*.css'], gulp.dest('gulpBuild/resources/assets')))
+        .pipe(gulpIf('*.php', htmlmin({
+            collapseWhitespace: true,
+            removeAttributeQuotes: true,
+            removeComments: true,
+            minifyJS: true,
+        }))).pipe(gulpIf('*.php', gulp.dest(paths.dev.view)))
 });
-
-gulp.task('htmlmin',['clean'], function() {
-  return gulp.src(paths.assets.view)
-    .pipe(htmlmin({
-                    collapseWhitespace: true,
-                    removeAttributeQuotes: true,
-                    // removeComments:        true,
-                    // minifyJS:              true,
-                  }))
-    .pipe(gulp.dest(paths.dev.view))
+gulp.task('htmlmin', ['clean'], function() {
+    return gulp.src(paths.assets.view).pipe(htmlmin({
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        // removeComments:        true,
+        // minifyJS:              true,
+    })).pipe(gulp.dest(paths.dev.view))
 });
-
 gulp.task('clean', function() {
-  return del.sync(['gulpBuild/resources/**',
-                    '!gulpBuild/resources/assets/',
-                    '!gulpBuild/resources/views/',
-                    ]);
+    return del.sync(['gulpBuild/resources/**', '!gulpBuild/resources/assets/', '!gulpBuild/resources/views/', ]);
 });
-
 // Default task
 gulp.task('default', function() {
-  gulp.start(['useref']);
+    gulp.start(['useref']);
 });
-
 // git test master
-
-gulp.task('min',['clean_min'], function() {
- return gulp.src([paths.local.root+paths.local.project+'/**'
-                ,'!'+paths.local.root+paths.local.project+'/node_modules/**'
-                ,'!'+paths.local.root+paths.local.project+'/node_modules'
-                ,'!'+paths.local.root+paths.local.project+'/.git/**'
-                ,'!'+paths.local.root+paths.local.project+'/.git'
-                ,'!'+paths.local.root+paths.local.project+'/storage/framework/views/**/*'
-                ,'!'+paths.local.root+paths.local.project+'/storage/framework/cache/**/*'
-                ,'!'+paths.local.root+paths.local.project+'/storage/framework/sessions/**/*'
-                ,'!'+paths.local.root+paths.local.project+'/gulpBuild/**'
-                ,'!'+paths.local.root+paths.local.project+'/gulpBuild'
-                ],{dot: true})
-            .pipe(gulp.dest(paths.local.root+paths.local.project+'_min'));
+gulp.task('min', ['clean_min'], function() {
+    return gulp.src([paths.local.root + paths.local.project + '/**', '!' + paths.local.root + paths.local.project + '/node_modules/**', '!' + paths.local.root + paths.local.project + '/node_modules', '!' + paths.local.root + paths.local.project + '/.git/**', '!' + paths.local.root + paths.local.project + '/.git', '!' + paths.local.root + paths.local.project + '/storage/framework/views/**/*', '!' + paths.local.root + paths.local.project + '/storage/framework/cache/**/*', '!' + paths.local.root + paths.local.project + '/storage/framework/sessions/**/*', '!' + paths.local.root + paths.local.project + '/gulpBuild/**', '!' + paths.local.root + paths.local.project + '/gulpBuild'], {
+        dot: true
+    }).pipe(gulp.dest(paths.local.root + paths.local.project + '_min'));
 });
-
 gulp.task('clean_min', ['useref'], function() {
-  return del([
-    paths.local.root+paths.local.project+'_min/**'
-    ,'!'+paths.local.root+paths.local.project+'_min'
-    // ,'!'+paths.local.root+paths.local.project+'_min/amir/**'
-    ,'!'+paths.local.root+paths.local.project+'_min/.git/**'
-                  ], {force: true,dot: true});
+    return del([
+        paths.local.root + paths.local.project + '_min/**', '!' + paths.local.root + paths.local.project + '_min'
+        // ,'!'+paths.local.root+paths.local.project+'_min/amir/**'
+        , '!' + paths.local.root + paths.local.project + '_min/.git/**'
+    ], {
+        force: true,
+        dot: true
+    });
 });
-
-gulp.task('copy_gulpBuild',['min'] , function() {
- return gulp.src([paths.local.root+paths.local.project+'/gulpBuild/**'],{dot: true})
-            .pipe(gulp.dest(paths.local.root+paths.local.project+'_min'));
+gulp.task('copy_gulpBuild', ['min'], function() {
+    return gulp.src([paths.local.root + paths.local.project + '/gulpBuild/**'], {
+        dot: true
+    }).pipe(gulp.dest(paths.local.root + paths.local.project + '_min'));
 });
-
 // Watch
 gulp.task('watch', function() {
-
-  var livereloadPage = function () {
-    // Reload the whole page
-    livereload.reload();
-  };
-
-  // Watch .blade lang files
-  gulp.watch(paths.assets.view, livereloadPage);
-  gulp.watch('app/helpers.php', livereloadPage);
-  gulp.watch('resources/lang/**/*.php', livereloadPage);
-
-  // gulp.watch( paths.assets.css+'/*.css', [useref]);
-  gulp.watch( 'resources/assets/css/*.css'  );
-  gulp.watch( 'resources/assets/js/*.js'  );
-
-  // Create LiveReload server
-  livereload.listen();
-
-  // Watch any files in dist/, reload on change
-  gulp.watch(['resources/assets/**']).on('change', livereload.changed);
-  // Watch .css , .js files
-
+    var livereloadPage = function() {
+        // Reload the whole page
+        livereload.reload();
+    };
+    // Watch .blade lang files
+    gulp.watch(paths.assets.view, livereloadPage);
+    gulp.watch('app/helpers.php', livereloadPage);
+    gulp.watch('resources/lang/**/*.php', livereloadPage);
+    // gulp.watch( paths.assets.css+'/*.css', [useref]);
+    gulp.watch('resources/assets/css/*.css');
+    gulp.watch('resources/assets/js/*.js');
+    // Create LiveReload server
+    livereload.listen();
+    // Watch any files in dist/, reload on change
+    gulp.watch(['resources/assets/**']).on('change', livereload.changed);
+    // Watch .css , .js files
 });
