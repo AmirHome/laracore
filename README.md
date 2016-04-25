@@ -156,10 +156,10 @@ cd amir-project
 		
 		... from within our project folder
 		$ npm init (Optional)
-		$ npm install gulp gulp-useref gulp-if gulp-uglify gulp-cssnano del gulp-livereload gulp-clean gulp-replace gulp-htmlmin --save-dev
-		
-		* install gulp plugin
 		$ npm install gulp -g
+
+		* install gulp plugin
+		$ npm install in the gulpfile.js
 
 		Remove node_modules
 		$ npm install rimraf -g $ rimraf node_modules
