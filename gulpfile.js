@@ -14,6 +14,7 @@ elixir(function(mix) {
 });
  */
 /*
+$ npm install rimraf -g $ rimraf node_modules
 $ npm install gulp -g
 $ npm init
 $ npm install gulp gulp-useref gulp-if gulp-uglify gulp-cssnano del gulp-livereload gulp-clean gulp-replace gulp-htmlmin gulp-git gulp-util vinyl-ftp yargs fs --save-dev
