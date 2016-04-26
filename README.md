@@ -93,10 +93,11 @@ cd amir-project
 
     for languages
     ****Code****
-    Route::get('language/{lang}', function ($lang ='en'){
-        session()->put('locale', $lang);
-        return back();
-    });
+
+	Route::get('language/{locale}', function ($locale ='en'){
+	    session()->put('locale', $locale);
+	    return back();
+	});
 	
 	\app\Http\Middleware\App.php
 	<?php 
@@ -122,6 +123,15 @@ cd amir-project
 		        return $next($request);
 		    }
 		}
+	in the protected $middlewareGroups array of the app/Http/Kernel.php file.
+	    protected $middlewareGroups = [
+	        'web' => [
+	        	...
+				'\App\Http\Middleware\App',
+
+	using
+	{{ App::getLocale()}}
+	{{ trans('general.title') }}
 
 	for Helper
     ****Code****

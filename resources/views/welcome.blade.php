@@ -31,7 +31,7 @@
             }
 
             .title {
-                font-size: 96px;
+                font-size: 56px;
             }
         </style>
     </head>
@@ -39,6 +39,9 @@
         <div class="container">
             <div class="content">
                 <div class="title">Laravel 5</div>
+                <a href="{{ url('/language/tr') }}">Türkçe</a> | <a href="{{ url('/language/en') }}">English</a>
+                {{ App::getLocale()}}
+                {{ trans('general.title') }}
             </div>
         </div>
     </body>

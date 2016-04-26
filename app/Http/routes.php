@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+// for languages
+Route::get('language/{locale}', function ($locale ='en'){
+    session()->put('locale', $locale);
+    return back();
+});
