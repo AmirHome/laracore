@@ -117,11 +117,15 @@ cd amir-project
 		     * @param  \Closure  $next
 		     * @return mixed
 		     */
-		    public function handle($request, Closure $next)
-		    {
-		        app()->setLocale(session('locale'));
-		        return $next($request);
-		    }
+    public function handle($request, Closure $next)
+    {
+        if(!session('locale'))
+        {
+            session()->put('locale', \Config::get('app.locale'));
+        }
+        app()->setLocale(session('locale'));
+        return $next($request);
+    }
 		}
 	in the protected $middlewareGroups array of the app/Http/Kernel.php file.
 	    protected $middlewareGroups = [
