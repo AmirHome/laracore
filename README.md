@@ -26,9 +26,11 @@ cd amir-project
 
 	1.
 	** composer require laraveldaily/quickadmin
-		insert config/app.php in the $providers: Laraveldaily\Quickadmin\QuickadminServiceProvider::class,
+		insert `Laraveldaily\Quickadmin\QuickadminServiceProvider::class,` to your `\config\app.php` providers **after `App\Providers\RouteServiceProvider::class,`** otherwise you will not be able to add new ones to freshly generated controllers.
+
 		php artisan quickadmin:install
 		insert App/Http/Kernel.php in the $routeMiddleware: 'role' => \Laraveldaily\Quickadmin\Middleware\HasPermissions::class,
+
 	2.
 	** composer require bestmomo/filemanager
         //info: https://github.com/bestmomo/filemanager
