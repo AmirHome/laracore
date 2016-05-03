@@ -181,7 +181,7 @@ cd amir-project
 		* install bower
 		Delete bower_components in your root folder
 		Create a .bowerrc file in the root
-		In the file write this code {"directory" : "resources"}
+		In the file write this code {"directory" : "resources/vendor"}
 		Run a bower install
 		$ npm install -g bower
 
