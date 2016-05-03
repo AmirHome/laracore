@@ -40,8 +40,8 @@ var gulp = require('gulp'),
 var paths = {
     'local': {
         'project': 'mycore',
+        'domain':'amploconsulting.com',
         'root': 'E:/xampp/htdocs/',
-        // 'gulpBuild':'gulpBuild/resources',
     },
     'dev': {
         'css': 'gulpBuild/resources/assets/css',
@@ -60,7 +60,7 @@ var paths = {
 gulp.task('hello', function() {
     console.log('!' + paths.local.root + paths.local.project + '_min/amir/**/*');
 });
-gulp.task('xxxxxxxftp-deployxxxxxxxx', function() {
+/*gulp.task('xxxxxxxftp-deployxxxxxxxx', function() {
     var conn = ftp.create({
         host: 'ftp.amploconsulting.com',
         user: 'smartme@amploconsulting.com',
@@ -70,16 +70,16 @@ gulp.task('xxxxxxxftp-deployxxxxxxxx', function() {
             dot: true
         }).pipe(fileCache()) //cacheFile ./node_modules/.filter-cache
         .pipe(conn.dest('/'));
-});
+});*/
 /*
  * upload modified git with ftp
  */
 // function to upload to ftp server
 function upload(list) {
     var conn = ftp.create({
-        host: 'ftp.amploconsulting.com', // ftp host name
-        user: 'smartme@amploconsulting.com', // ftp username
-        password: '@m!rsmartmeA7', // ftp password
+        host: 'ftp.'+ paths.local.domain, // ftp host name
+        user: paths.local.project +'@'+ paths.local.domain, // ftp username
+        password: '@m!r'+ paths.local.project +'A7', // ftp password
         parallel: 7,
         log: gutil.log
     });
