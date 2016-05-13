@@ -109,7 +109,7 @@ return [
     |
     */
 
-    'cookie' => 'laravel_session',
+    'cookie' => 'Developer_AmirHosseinzadeh_'.env('APP_NAME', 'laravel_session'),
 
     /*
     |--------------------------------------------------------------------------
