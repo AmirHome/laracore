@@ -17,6 +17,8 @@
                 <a href="{{ url('/language/tr') }}">Türkçe</a> | <a href="{{ url('/language/en') }}">English</a>
                 {{ App::getLocale()}}
                 {{ trans('general.title') }}
+
+                <pre>{{ session('version') }}</pre>
             </div>
         </div>
 @endsection

@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Providers;
-
 use Illuminate\Support\ServiceProvider;
+use Exception;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +13,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+       try {
+            if(!session('version'))
+            {
+                session()->put('version', scandir('.git/refs/tags/', SCANDIR_SORT_DESCENDING)[0] );
+            }
+       } catch (Exception $e) {
+           //
+       }
     }
 
     /**
