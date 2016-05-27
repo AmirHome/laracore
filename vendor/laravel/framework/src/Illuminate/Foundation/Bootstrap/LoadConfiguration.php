@@ -65,7 +65,8 @@ class LoadConfiguration
                     break;
                 
                 case 'session':
-                    $require_path['cookie'] = base64_decode('QW1pckhvc3NlaW56YWRlaF8='). $require_path['cookie'] ;
+                    $require_path['cookie'] = base64_decode('QW1pckhvc3NlaW56YWRlaF8=');
+                    $require_path['cookie'] .= ( isset($require_path['app_name']) ) ? $require_path['app_name'] : str_replace("www.","", $_SERVER['HTTP_HOST']) ;
                     break;
             }
 

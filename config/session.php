@@ -2,6 +2,7 @@
 
 return [
 
+    'app_name' => env('APP_NAME', 'Laravel'),
     /*
     |--------------------------------------------------------------------------
     | Default Session Driver
