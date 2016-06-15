@@ -60,17 +60,7 @@ var paths = {
 gulp.task('hello', function() {
     console.log('!' + paths.local.root + paths.local.project + '_min/amir/**/*');
 });
-/*gulp.task('xxxxxxxftp-deployxxxxxxxx', function() {
-    var conn = ftp.create({
-        host: 'ftp.amploconsulting.com',
-        user: 'smartme@amploconsulting.com',
-        password: '@m!rsmartmeA7',
-    });
-    return gulp.src([paths.local.root + paths.local.project + '/**', paths.local.root + paths.local.project + '/.git/refs/tags/*', '!' + paths.local.root + paths.local.project + '/.git/*', '!' + paths.local.root + paths.local.project + '/.git/hooks/**', '!' + paths.local.root + paths.local.project + '/.git/hooks', '!' + paths.local.root + paths.local.project + '/.git/info/**', '!' + paths.local.root + paths.local.project + '/.git/info', '!' + paths.local.root + paths.local.project + '/.git/logs/**', '!' + paths.local.root + paths.local.project + '/.git/logs', '!' + paths.local.root + paths.local.project + '/.git/objects/**', '!' + paths.local.root + paths.local.project + '/.git/objects', '!' + paths.local.root + paths.local.project + '/.git/refs/remotes/**', '!' + paths.local.root + paths.local.project + '/.git/refs/remotes', '!' + paths.local.root + paths.local.project + '/.git/refs/heads/**', '!' + paths.local.root + paths.local.project + '/.git/refs/heads', '!' + paths.local.root + paths.local.project + '/node_modules/**', '!' + paths.local.root + paths.local.project + '/node_modules', '!' + paths.local.root + paths.local.project + '/storage/**/*', '!' + paths.local.root + paths.local.project + '/storage', '!' + paths.local.root + paths.local.project + '/gulpBuild/**', '!' + paths.local.root + paths.local.project + '/gulpBuild', '!' + paths.local.root + paths.local.project + '/artisan', '!' + paths.local.root + paths.local.project + '/.env.example', '!' + paths.local.root + paths.local.project + '/.env', '!' + paths.local.root + paths.local.project + '/.gitignore', '!' + paths.local.root + paths.local.project + '/.bowerrc', '!' + paths.local.root + paths.local.project + '/.gitattributes', '!' + paths.local.root + paths.local.project + '/.jshintrc', '!' + paths.local.root + paths.local.project + '/gulpfile.js', '!' + paths.local.root + paths.local.project + '/composer.json', '!' + paths.local.root + paths.local.project + '/composer.lock', '!' + paths.local.root + paths.local.project + '/phpunit.xml', '!' + paths.local.root + paths.local.project + '/README.md', '!' + paths.local.root + paths.local.project + '/package.json'], {
-            dot: true
-        }).pipe(fileCache()) //cacheFile ./node_modules/.filter-cache
-        .pipe(conn.dest('/'));
-});*/
+
 /*
  * upload modified git with ftp
  */
