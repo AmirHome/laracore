@@ -151,13 +151,23 @@ gulp.task('ftp-deploy', function() {
 /* clean up css and js and html */
 gulp.task('useref', ['clean'], function() {
     return gulp.src(paths.assets.view).pipe(replace("{{ asset('resources/assets') }}", 'resources/assets'))
-        // .pipe(replace(/foo(.{3})/g, '$1foo'))
         .pipe(useref())
-        // Minifies only if it's a JavaScript file
+        /* Minifies only if it's a JavaScript file
+        <!--build:js(./)  ../assets/js/general-javascript.js -->
+            <script src="{{ asset('resources/assets') }}/js/jquery.min.js"></script>
+            <script src="{{ asset('resources/assets') }}/js/menu.js"></script>
+        <!-- endbuild -->
+        */
+
         .pipe(gulpIf('*.js', uglify()))
-        // Minifies only if it's a CSS file
+        /* Minifies only if it's a CSS file
+        <!-- build:css(./)  ../assets/css/general-head.css -->
+            <link rel="stylesheet" href="{{ asset('resources/assets') }}/css/style1.css">
+            <link rel="stylesheet" href="{{ asset('resources/assets') }}/css/style2.css">
+        <!-- endbuild -->
+        */
+        
         .pipe(gulpIf('*.css', cssnano())).pipe(gulp.dest(paths.dev.view)).pipe(replace('../assets', "{{ asset('resources/assets') }}"))
-        // .pipe(gulpIf(['/js/*.js', 'css/*.css'], gulp.dest('gulpBuild/resources/assets')))
         .pipe(gulpIf('*.php', htmlmin({
             collapseWhitespace: true,
             removeAttributeQuotes: true,
