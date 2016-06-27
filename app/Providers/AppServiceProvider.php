@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
               session()->put('version', scandir('.git/refs/tags/', SCANDIR_SORT_DESCENDING)[0] );
           }
       } catch (Exception $e) {
-         session()->put('version','code:3');
+         session()->put('version','err code: 3');
       }
     }
 
