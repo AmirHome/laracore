@@ -5,11 +5,12 @@ return [
     /*
     |--------------------------------------------------------------------------
     | Admin Path
+    | Example for blade
+    | url(config('app.admin').'/public/uploads')
     |--------------------------------------------------------------------------
-    url(config('app.admin').'/public/uploads')
     */
     
-    'admin' => env('APP_ADMIN','laraadmin'),
+    'admin' => env('APP_ADMIN','admin'),
 
     /*
     |--------------------------------------------------------------------------
