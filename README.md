@@ -18,7 +18,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 1. Update .env, set Database name
 2. php artisan key:generate
 
-	installed: 3,4
+	installed: 3,4,8
 
     for languages
     ****Code****
@@ -192,3 +192,8 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 		insert config/app.php in the $providers: Barryvdh\Debugbar\ServiceProvider::class,
 		insert config/app.php in the alias	   : 'Debugbar' => Barryvdh\Debugbar\Facade::class,
 		php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
+	8.
+	composer require laravelcollective/html:5.2.*
+		insert config/app.php in the $providers: Collective\Html\HtmlServiceProvider::class,
+		insert config/app.php in the alias	   : 'Form' => Collective\Html\FormFacade::class,
+      											 'Html' => Collective\Html\HtmlFacade::class,
