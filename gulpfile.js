@@ -39,7 +39,7 @@ var gulp = require('gulp'),
 // Paths variables
 var paths = {
     'local': {
-        'project': 'mycore',
+        'project': 'smartme',
         'domain':'amploconsulting.com',
         'root': 'E:/xampp/htdocs/',
     },
