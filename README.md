@@ -18,6 +18,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 1. Update .env, set Database name
 2. php artisan key:generate
 
+	installed: 3,4
 
     for languages
     ****Code****
