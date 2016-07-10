@@ -1,0 +1,4 @@
+User-Agent: *
+Disallow: 
+Disallow: /admin
+Crawl-delay: 10
