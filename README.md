@@ -156,17 +156,27 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 	3,4.	
 	composer require intervention/image
     composer require intervention/imagecache
-		php artisan vendor:publish
 		insert config/app.php in the $providers: 'Intervention\Image\ImageServiceProvider',
 		insert config/app.php in the alias: 'Image'     => 'Intervention\Image\Facades\Image',
+		php artisan vendor:publish
 		note: the requested PHP extension fileinfo
 		*******Code*******
+		// for size image manegment
 		Route::get('/photo/{size}/{name}', function ($size = null, $name = null) {
 			if (!is_null($size) && !is_null($name)) {
 				$size        = explode('x', $size);
 				$cache_image = Image::cache(function ($image) use ($size, $name) {
-				    return $image->make(url('/photos/' . $name))->resize($size[0], $size[1]);
-				}, env('CACHE_PHOTO_MINUTE')); // cache for 10 minutes
+					if ( 'null' == $size[0] || 'null' == $size[1]) {
+				    	return $image->make(url( config('app.admin').'/public/uploads/' . $name))
+				    		     	->resize($size[0], $size[1], function ($constraint) {
+																    $constraint->aspectRatio();
+																});
+					} else {
+						return $image->make(url( config('app.admin').'/public/uploads/' . $name))
+				    		     	->resize($size[0], $size[1]);
+					}
+					
+				}, env('CACHE_PHOTO_MINUTE',10)); // default cache for 10 minutes
 
 				return Response::make($cache_image, 200, ['Content-Type' =>'image']);
 			} else {
