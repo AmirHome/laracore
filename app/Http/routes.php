@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/info', function () {
     return view('welcome');
 });
 
@@ -22,11 +22,10 @@ Route::get('language/{locale}', function ($locale ='en'){
 });
 
 // for size image manegment
-// for daynamic images in admin panel
 Route::get('/photo/{size}/{service}/{name}', function ( $size, $service, $name ){
 	return imageResizeCache(config('app.admin').'/public/uploads/',$size, $service, $name);
 });
-// for static images in local
+
 Route::get('/fix/{size}/{service}/{name}', function ( $size, $service, $name ){
 	return imageResizeCache('/resources/vendor/',$size, $service, $name);
 });
