@@ -162,17 +162,27 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 		note: the requested PHP extension fileinfo
 		*******Code*******
 		// for size image manegment
-		Route::get('/photo/{size}/{name}', function ($size = null, $name = null) {
-			if (!is_null($size) && !is_null($name)) {
+		// for daynamic images in admin panel
+		Route::get('/photo/{size}/{service}/{name}', function ( $size, $service, $name ){
+			return imageResizeCache(config('app.admin').'/public/uploads/',$size, $service, $name);
+		});
+		// for static images in local
+		Route::get('/fix/{size}/{service}/{name}', function ( $size, $service, $name ){
+			return imageResizeCache('/resources/vendor/',$size, $service, $name);
+		});
+
+		function imageResizeCache ($path = null, $size = null, $service = null, $name = null) {
+			if (!is_null($path) && !is_null($size) && !is_null($service) && !is_null($name)) {
+				
 				$size        = explode('x', $size);
-				$cache_image = Image::cache(function ($image) use ($size, $name) {
+				$cache_image = Image::cache(function ($image) use ($path, $size, $service, $name) {
 					if ( 'null' == $size[0] || 'null' == $size[1]) {
-				    	return $image->make(url( config('app.admin').'/public/uploads/' . $name))
+				    	return $image->make(url( $path . $service .'/'. $name))
 				    		     	->resize($size[0], $size[1], function ($constraint) {
 																    $constraint->aspectRatio();
 																});
 					} else {
-						return $image->make(url( config('app.admin').'/public/uploads/' . $name))
+						return $image->make(url( $path . $service .'/'. $name))
 				    		     	->resize($size[0], $size[1]);
 					}
 					
@@ -182,7 +192,8 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 			} else {
 				abort(404);
 			}
-		});
+		}
+
 		// for test <img src="{{ url('/photo/100x100/somephoto.jpg') }}">
 		**************
 	5.
