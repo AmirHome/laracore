@@ -20,9 +20,9 @@
                 {{turkish_slug('amir home is best site .')}}
                 <p>
                 	
-				<img class="activator" src="{{ url('/photo/300x200/').'/image.jpg'}}">
-				<img class="activator" src="{{ url('/photo/nullx200/').'/image.jpg'}}">
-				<img class="activator" src="{{ url('/photo/300xnull/').'/image.jpg'}}">
+				<img class="activator" src="{{ url('/photo/300x200/service').'/image.jpg'}}">
+				<img class="activator" src="{{ url('/photo/nullx200/service').'/image.jpg'}}">
+				<img class="activator" src="{{ url('/photo/300xnull/service').'/image.jpg'}}">
                 </p>
 
                 <pre>versoin:<tt>{{ session('version') }}</tt></pre>
