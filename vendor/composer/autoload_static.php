@@ -57,6 +57,7 @@ class ComposerStaticInit34cc308300972a69f354a42d7f1d1d76
         'P' => 
         array (
             'Psy\\' => 4,
+            'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'PhpParser\\' => 10,
         ),
@@ -185,6 +186,10 @@ class ComposerStaticInit34cc308300972a69f354a42d7f1d1d76
         array (
             0 => __DIR__ . '/..' . '/psy/psysh/src/Psy',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
@@ -203,8 +208,8 @@ class ComposerStaticInit34cc308300972a69f354a42d7f1d1d76
         ),
         'Intervention\\Image\\' => 
         array (
-            0 => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image',
-            1 => __DIR__ . '/..' . '/intervention/imagecache/src/Intervention/Image',
+            0 => __DIR__ . '/..' . '/intervention/imagecache/src/Intervention/Image',
+            1 => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image',
         ),
         'Illuminate\\' => 
         array (
@@ -247,10 +252,6 @@ class ComposerStaticInit34cc308300972a69f354a42d7f1d1d76
     public static $prefixesPsr0 = array (
         'P' => 
         array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
-            ),
             'Prophecy\\' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
